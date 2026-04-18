@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import { useLanguage } from '@/components/providers/LanguageProvider'
 
 const banners = [
   {
@@ -59,7 +60,7 @@ export function BannerSlider() {
 
   return (
     <section
-      className="relative h-[70vh] min-h-[500px] overflow-hidden"
+      className="relative h-[60vh] sm:h-[70vh] min-h-[400px] sm:min-h-[500px] overflow-hidden"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
@@ -78,7 +79,8 @@ export function BannerSlider() {
             alt={currentBanner.title[language]}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-heritage-ink/70 via-heritage-ink/50 to-transparent" />
+          {/* 移动端底部渐变，桌面端右侧渐变 */}
+          <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-heritage-ink/80 via-heritage-ink/60 sm:via-heritage-ink/50 to-heritage-ink/40 sm:to-transparent" />
         </motion.div>
       </AnimatePresence>
 
@@ -87,25 +89,25 @@ export function BannerSlider() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
             transition={{ duration: 0.5 }}
-            className="max-w-2xl"
+            className="w-full sm:max-w-2xl text-center sm:text-left"
           >
             <motion.h2
-              className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-white mb-6 leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-serif text-white mb-4 sm:mb-6 leading-tight"
             >
               {currentBanner.title[language]}
             </motion.h2>
-            <p className="text-lg md:text-xl text-white/80 mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0">
               {currentBanner.subtitle[language]}
             </p>
             <Link href={currentBanner.cta.href}>
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-full shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 transition-all"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-full text-base sm:text-lg shadow-lg shadow-primary-500/30"
               >
                 {currentBanner.cta.text[language]}
               </motion.button>
@@ -114,30 +116,30 @@ export function BannerSlider() {
         </AnimatePresence>
       </div>
 
-      {/* 导航箭头 */}
+      {/* 导航箭头 - 移动端隐藏 */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+        className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/20 backdrop-blur-sm items-center justify-center text-white hover:bg-white/30 transition-colors"
       >
-        <ChevronLeft size={24} />
+        <ChevronLeft size={20} />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+        className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/20 backdrop-blur-sm items-center justify-center text-white hover:bg-white/30 transition-colors"
       >
-        <ChevronRight size={24} />
+        <ChevronRight size={20} />
       </button>
 
       {/* 指示器 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-2 sm:space-x-3">
         {banners.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`h-1.5 sm:h-2 rounded-full transition-all ${
               index === currentIndex
-                ? 'bg-white w-8'
-                : 'bg-white/50 hover:bg-white/70'
+                ? 'bg-white w-6 sm:w-8'
+                : 'w-3 sm:w-4 bg-white/50 hover:bg-white/70'
             }`}
           />
         ))}
@@ -145,6 +147,3 @@ export function BannerSlider() {
     </section>
   )
 }
-
-// 添加缺失的 import
-import { useLanguage } from '@/components/providers/LanguageProvider'
