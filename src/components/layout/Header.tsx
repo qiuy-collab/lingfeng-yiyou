@@ -35,7 +35,7 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-lg shadow-lg'
-          : 'bg-transparent'
+          : 'bg-white/80 backdrop-blur-md border-b border-gray-200/50'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,14 +66,10 @@ export function Header() {
               </svg>
             </motion.div>
             <div className="flex flex-col">
-              <span className={`text-xl font-bold font-serif tracking-wider ${
-                isScrolled ? 'text-heritage-ink' : 'text-white'
-              }`}>
+              <span className="text-xl font-bold font-serif tracking-wider text-heritage-ink">
                 {t.home.hero.title}
               </span>
-              <span className={`text-xs tracking-widest ${
-                isScrolled ? 'text-primary-500' : 'text-white/80'
-              }`}>
+              <span className="text-xs tracking-widest text-primary-500">
                 LINGFENG YIYOU
               </span>
             </div>
@@ -90,11 +86,7 @@ export function Header() {
               >
                 <Link
                   href={item.href}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors group ${
-                    isScrolled
-                      ? 'text-heritage-ink hover:text-primary-500'
-                      : 'text-white/90 hover:text-white'
-                  }`}
+                  className="relative px-4 py-2 text-sm font-medium transition-colors group text-heritage-ink hover:text-primary-500"
                 >
                   {t.nav[item.key as keyof typeof t.nav]}
                   <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary-500 via-accent-500 to-secondary-500 group-hover:w-full transition-all duration-300" />
@@ -108,11 +100,7 @@ export function Header() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6 }}
               onClick={toggleLanguage}
-              className={`ml-4 flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                isScrolled
-                  ? 'bg-primary-500/10 text-primary-500 hover:bg-primary-500 hover:text-white'
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
+              className="ml-4 flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all bg-primary-500/10 text-primary-500 hover:bg-primary-500 hover:text-white"
             >
               <Globe size={16} className="mr-1.5" />
               {language === 'zh' ? 'EN' : '中文'}
@@ -122,9 +110,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`lg:hidden p-2 rounded-lg transition-colors ${
-              isScrolled ? 'text-heritage-ink' : 'text-white'
-            }`}
+            className="lg:hidden p-2 rounded-lg transition-colors text-heritage-ink"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

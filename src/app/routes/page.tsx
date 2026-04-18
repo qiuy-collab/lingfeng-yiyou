@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import { Clock, MapPin, Star, Filter, Search } from 'lucide-react'
 import { useState } from 'react'
+import Link from 'next/link'
 
 const routesData = [
   {
@@ -177,14 +178,14 @@ export default function RoutesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredRoutes.map((route, index) => (
-              <motion.div
-                key={route.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg shadow-gray-100/50 border border-gray-100"
-              >
+              <Link key={route.id} href={`/routes/${route.id}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -8 }}
+                  className="group bg-white rounded-2xl overflow-hidden shadow-lg shadow-gray-100/50 border border-gray-100 cursor-pointer"
+                >
                 {/* 图片区域 */}
                 <div className="relative h-56 overflow-hidden">
                   <img
@@ -253,10 +254,11 @@ export default function RoutesPage() {
                     whileTap={{ scale: 0.98 }}
                     className="w-full py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl hover:from-primary-400 hover:to-primary-500 transition-all shadow-lg shadow-primary-500/20"
                   >
-                    {t.common.bookNow}
+                    {language === 'zh' ? '查看详情' : 'View Details'}
                   </motion.button>
                 </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </div>
 

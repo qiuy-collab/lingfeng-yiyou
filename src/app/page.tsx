@@ -1,9 +1,12 @@
 'use client'
 
 import { HeroSection } from '@/components/sections/HeroSection'
+import { BannerSlider } from '@/components/sections/BannerSlider'
 import { FeaturesSection } from '@/components/sections/FeaturesSection'
 import { CultureSection } from '@/components/sections/CultureSection'
 import { RoutesSection } from '@/components/sections/RoutesSection'
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
+import { PartnersSection } from '@/components/sections/PartnersSection'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import { ArrowRight } from 'lucide-react'
@@ -60,9 +63,12 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <BannerSlider />
       <FeaturesSection />
       <CultureSection />
       <RoutesSection />
+      <TestimonialsSection />
+      <PartnersSection />
       <CTASection />
     </>
   )

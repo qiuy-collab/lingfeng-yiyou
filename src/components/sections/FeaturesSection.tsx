@@ -2,12 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/LanguageProvider'
-import { Temple, Map, Languages, Gift } from 'lucide-react'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { Landmark, Map, Languages, Gift, ArrowRight } from 'lucide-react'
 
 const iconMap = {
-  temple: Temple,
+  temple: Landmark,
   map: Map,
   translate: Languages,
   gift: Gift,

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/LanguageProvider'
+import { GuidesSection } from '@/components/sections/GuidesSection'
 import { Check, Users, Languages, Clock, Phone, Mail, Calendar, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 
@@ -55,6 +56,112 @@ const pricingPlans = [
     popular: false,
   },
 ]
+
+const faqs = [
+  {
+    question: { zh: '如何预约陪游服务？', en: 'How to book a guide service?' },
+    answer: {
+      zh: '您可以通过网站预约表单、微信公众号或电话进行预约。我们会在24小时内与您确认预约信息。',
+      en: 'You can book through our website form, WeChat account, or phone. We will confirm your booking within 24 hours.',
+    },
+  },
+  {
+    question: { zh: '可以指定导游吗？', en: 'Can I request a specific guide?' },
+    answer: {
+      zh: '可以。在预约表单中注明您希望指定的导游，我们会尽量安排。如遇档期冲突，我们会推荐同等资质的导游。',
+      en: 'Yes. Please specify your preferred guide in the booking form. We will try our best to arrange. If unavailable, we will recommend guides with similar qualifications.',
+    },
+  },
+  {
+    question: { zh: '行程可以临时调整吗？', en: 'Can I modify the itinerary on the day?' },
+    answer: {
+      zh: '可以。我们的导游会根据您的意愿灵活调整行程。如需重大调整，请提前与客服沟通。',
+      en: 'Yes. Our guides are flexible and can adjust based on your preferences. For major changes, please contact customer service in advance.',
+    },
+  },
+  {
+    question: { zh: '如何取消或改期？', en: 'How to cancel or reschedule?' },
+    answer: {
+      zh: '服务开始前48小时可免费取消或改期。48小时内取消需支付30%服务费。具体政策请参阅服务条款。',
+      en: 'Free cancellation or rescheduling is available 48 hours before the service. Within 48 hours, a 30% service fee applies. Please refer to our terms for details.',
+    },
+  },
+  {
+    question: { zh: '支持哪些支付方式？', en: 'What payment methods are accepted?' },
+    answer: {
+      zh: '支持微信支付、支付宝、银行卡转账、信用卡等多种支付方式。境外游客可使用PayPal或国际信用卡。',
+      en: 'We accept WeChat Pay, Alipay, bank transfer, credit cards, and more. International visitors can use PayPal or international credit cards.',
+    },
+  },
+  {
+    question: { zh: '除了中英文，还有其他语言服务吗？', en: 'Do you offer languages other than Chinese and English?' },
+    answer: {
+      zh: '是的，我们有会日语、韩语、法语、德语等语言的导游。请在预约时注明您的语言需求。',
+      en: 'Yes, we have guides who speak Japanese, Korean, French, German, and more. Please specify your language requirement when booking.',
+    },
+  },
+]
+
+function FAQSection() {
+  const { language } = useLanguage()
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold font-serif text-heritage-ink mb-4">
+            {language === 'zh' ? '常见问题' : 'FAQ'}
+          </h2>
+          <p className="text-gray-600">
+            {language === 'zh' ? '还有疑问？查看常见问题解答' : 'Questions? Check our FAQ'}
+          </p>
+        </motion.div>
+
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.05 }}
+              className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                className="w-full px-6 py-4 text-left flex items-center justify-between"
+              >
+                <span className="font-medium text-heritage-ink">{faq.question[language]}</span>
+                <motion.span
+                  animate={{ rotate: openIndex === index ? 180 : 0 }}
+                  className="text-gray-400"
+                >
+                  ▼
+                </motion.span>
+              </button>
+              <motion.div
+                initial={false}
+                animate={{
+                  height: openIndex === index ? 'auto' : 0,
+                  opacity: openIndex === index ? 1 : 0,
+                }}
+                className="overflow-hidden"
+              >
+                <p className="px-6 pb-4 text-gray-600">{faq.answer[language]}</p>
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
 export default function ServicePage() {
   const { t, language } = useLanguage()
@@ -347,6 +454,12 @@ export default function ServicePage() {
           </motion.form>
         </div>
       </section>
+
+      {/* 导游团队 */}
+      <GuidesSection />
+
+      {/* FAQ */}
+      <FAQSection />
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
 import { FloatingElements } from '@/components/effects/FloatingElements'
+import { ScrollToTop } from '@/components/ui/ScrollToTop'
 
 const notoSerif = Noto_Serif_SC({
   subsets: ['latin'],
@@ -52,6 +53,9 @@ export default function RootLayout({
             <main>{children}</main>
             <Footer />
           </div>
+
+          {/* 返回顶部按钮 */}
+          <ScrollToTop />
         </LanguageProvider>
       </body>
     </html>
