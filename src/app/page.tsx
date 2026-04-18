@@ -7,6 +7,7 @@ import { CultureSection } from '@/components/sections/CultureSection'
 import { RoutesSection } from '@/components/sections/RoutesSection'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { PartnersSection } from '@/components/sections/PartnersSection'
+import { NewsSection } from '@/components/sections/NewsSection'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import { ArrowRight } from 'lucide-react'
@@ -69,6 +70,7 @@ export default function HomePage() {
       <RoutesSection />
       <TestimonialsSection />
       <PartnersSection />
+      <NewsSection />
       <CTASection />
     </>
   )

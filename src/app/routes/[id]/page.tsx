@@ -5,6 +5,7 @@ import { useLanguage } from '@/components/providers/LanguageProvider'
 import { Clock, MapPin, Users, Star, Check, X, ChevronRight, Phone, Mail, Calendar } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
+import { RouteMap } from '@/components/ui/RouteMap'
 
 const routeData = {
   1: {
@@ -110,7 +111,8 @@ const routeData = {
 export default function RouteDetailPage({ params }: { params: { id: string } }) {
   const { language } = useLanguage()
   const [selectedDay, setSelectedDay] = useState(1)
-  const route = routeData[params.id as keyof typeof routeData] || routeData[1]
+  const routeId = parseInt(params.id) as 1 | 2
+  const route = routeData[routeId] || routeData[1]
 
   return (
     <div className="min-h-screen pt-20">
@@ -165,6 +167,19 @@ export default function RouteDetailPage({ params }: { params: { id: string } }) 
               {language === 'zh' ? '立即预约' : 'Book Now'}
             </motion.button>
           </Link>
+        </div>
+      </section>
+
+      {/* 地图可视化 */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold font-serif text-heritage-ink mb-6">
+            {language === 'zh' ? '路线地图' : 'Route Map'}
+          </h2>
+          <RouteMap
+            spots={route.itinerary.flatMap(day => day.spots)}
+            title={route.title}
+          />
         </div>
       </section>
 

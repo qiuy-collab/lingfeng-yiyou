@@ -2,7 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/LanguageProvider'
-import { ShoppingCart, Heart, Star, Filter, Search } from 'lucide-react'
+import { useCartStore } from '@/store/useCartStore'
+import { CartDrawer } from '@/components/ui/CartDrawer'
+import { ShoppingCart, Heart, Star, Filter, Search, Check } from 'lucide-react'
 import { useState } from 'react'
 
 const products = [
@@ -106,9 +108,13 @@ const categories = [
 
 export default function ShopPage() {
   const { t, language } = useLanguage()
+  const addItem = useCartStore((state) => state.addItem)
+  const getTotalItems = useCartStore((state) => state.getTotalItems)
   const [activeCategory, setActiveCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [favorites, setFavorites] = useState<number[]>([])
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [addedToCart, setAddedToCart] = useState<number | null>(null)
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = activeCategory === 'all' || product.category === activeCategory
@@ -122,8 +128,38 @@ export default function ShopPage() {
     )
   }
 
+  const handleAddToCart = (product: typeof products[0]) => {
+    const price = parseFloat(product.price.replace('¥', ''))
+    addItem({
+      id: product.id,
+      name: product.name[language],
+      price,
+      image: product.image,
+    })
+    setAddedToCart(product.id)
+    setTimeout(() => setAddedToCart(null), 2000)
+  }
+
   return (
     <div className="min-h-screen pt-20">
+      {/* 购物车抽屉 */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* 购物车浮动按钮 */}
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsCartOpen(true)}
+        className="fixed bottom-8 right-8 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center"
+      >
+        <ShoppingCart className="w-6 h-6" />
+        {getTotalItems() > 0 && (
+          <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
+            {getTotalItems()}
+          </span>
+        )}
+      </motion.button>
+
       {/* Hero区域 */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary-500/10 via-transparent to-accent-500/10" />
@@ -219,9 +255,24 @@ export default function ShopPage() {
                     whileHover={{ opacity: 1, y: 0 }}
                     className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
                   >
-                    <button className="w-full py-2 bg-white text-heritage-ink font-medium rounded-lg flex items-center justify-center space-x-2">
-                      <ShoppingCart className="w-4 h-4" />
-                      <span>{language === 'zh' ? '加入购物车' : 'Add to Cart'}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleAddToCart(product)
+                      }}
+                      className="w-full py-2 bg-white text-heritage-ink font-medium rounded-lg flex items-center justify-center gap-2"
+                    >
+                      {addedToCart === product.id ? (
+                        <>
+                          <Check className="w-4 h-4 text-green-500" />
+                          <span>{language === 'zh' ? '已添加' : 'Added'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingCart className="w-4 h-4" />
+                          <span>{language === 'zh' ? '加入购物车' : 'Add to Cart'}</span>
+                        </>
+                      )}
                     </button>
                   </motion.div>
                 </div>
