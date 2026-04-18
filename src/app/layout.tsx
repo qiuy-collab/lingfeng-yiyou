@@ -4,6 +4,7 @@ import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
+import { AuthProvider } from '@/components/providers/AuthProvider'
 import { FloatingElements } from '@/components/effects/FloatingElements'
 import { ScrollToTop } from '@/components/ui/ScrollToTop'
 
@@ -44,18 +45,20 @@ export default function RootLayout({
     <html lang="zh" className={`${notoSerif.variable} ${notoSans.variable}`}>
       <body className="font-sans bg-heritage-paper min-h-screen">
         <LanguageProvider>
-          {/* 背景装饰元素 */}
-          <FloatingElements />
+          <AuthProvider>
+            {/* 背景装饰元素 */}
+            <FloatingElements />
 
-          {/* 主内容 */}
-          <div className="relative z-10">
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </div>
+            {/* 主内容 */}
+            <div className="relative z-10">
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </div>
 
-          {/* 返回顶部按钮 */}
-          <ScrollToTop />
+            {/* 返回顶部按钮 */}
+            <ScrollToTop />
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>
